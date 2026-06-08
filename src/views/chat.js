@@ -6,250 +6,279 @@ import {getConversations, saveConversations} from "../utils/storage.js";
 import {addMessage, loadConversation} from "../utils/messages.js";
 import {addTyping, removeTyping} from "../utils/typing.js";
 import {initContrastButton} from "../utils/contrast.js";
-import {renderCharacters}from "../components/characterCards.js";
+import {renderCharacters} from "../components/characterCards.js";
 import {renderChatForm} from "../components/chatForm.js";
 import {renderMessages} from "../components/messagesContainer.js";
 import {isLimitReached, getLimitMessage, getMsUntilReset, formatTimeRemaining} from "../utils/tokenLimit.js";
-import {refreshTokenBar}from "../components/tokenBar.js";
+import {refreshTokenBar} from "../components/tokenBar.js";
+
+const BRAND_IMAGE = "/images/chatverse-buddy.webp";
 
 let _countdownInterval = null;
 
 export function renderChat() {
-  if (_countdownInterval) {
-    clearInterval(_countdownInterval);
-    _countdownInterval = null;
-  }
-
-  const html = `
-    <section class="chat-page">
-      <h2 class="chat-title">Elige tu personaje</h2>
-      ${renderCharacters()}
-      ${renderMessages()}
-      ${renderChatForm()}
-    </section>
-  `;
-
-  setTimeout(() => initChat(), 0);
-  return html;
+if (_countdownInterval) {
+clearInterval(_countdownInterval);
+_countdownInterval = null;
 }
 
+const html = `
+<section class="chat-page">
+  <h2 class="chat-title">Elegí tu personaje</h2>
+
+  <div class="chat-intro">
+    <p>Seleccioná una tarjeta para comenzar. Cada personaje tiene una forma distinta de responder.</p>
+  </div>
+
+  ${renderCharacters()}
+
+  <div class="chat-default-hero" id="chat-default-hero">
+    <div class="chat-default-text">
+      <span class="chat-default-badge">Listo para empezar</span>
+      <h3>Elegí un personaje para comenzar</h3>
+      <p>Cuando selecciones uno, aparecerá su estilo visual y podrás iniciar la conversación.</p>
+    </div>
+
+    <div class="chat-default-visual" aria-label="Mascota de ChatVerse AI">
+      <img
+        class="chat-default-image"
+        src="${BRAND_IMAGE}"
+        alt="Mascota robot amigable de ChatVerse AI"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+      >
+      <div class="brand-image-fallback" aria-hidden="true">🤖</div>
+    </div>
+  </div>
+
+  ${renderMessages()}
+  ${renderChatForm()}
+</section>
+`;
+
+setTimeout(() => initChat(), 0);
+return html;
+}
 
 function showWarning(message) {
-  const container = document.getElementById("messages");
-  if (!container) return;
+const container = document.getElementById("messages");
+if (!container) return;
 
-  const div = document.createElement("div");
-  div.className = "message ai";
-  div.innerHTML = `
-    <span class="avatar">⚠️</span>
-    <span class="message-text">${message}</span>
-  `;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-  setTimeout(() => div.remove(), 3000);
+const div = document.createElement("div");
+div.className = "message ai";
+div.innerHTML = `
+<span class="avatar">⚠️</span>
+<span class="message-text">${message}</span>
+`;
+container.appendChild(div);
+container.scrollTop = container.scrollHeight;
+setTimeout(() => div.remove(), 3000);
 }
 
 function showEmptyState() {
-  const container = document.getElementById("messages");
-  if (!container) return;
-
-  const div = document.createElement("div");
-  div.className = "message ai";
-  div.innerHTML = `
-    <span class="avatar">👾</span>
-    <span class="message-text">Elegí un personaje para comenzar a chatear 👆</span>
-  `;
-  container.appendChild(div);
+const hero = document.getElementById("chat-default-hero");
+if (hero) hero.hidden = false;
 }
 
-function setInputEnabled(enabled) {
-  const input     = document.getElementById("chat-input");
-  const submitBtn = document.querySelector("#chat-form button[type='submit']");
+function hideEmptyState() {
+const hero = document.getElementById("chat-default-hero");
+if (hero) hero.hidden = true;
+}
 
-  if (input)     input.disabled     = !enabled;
-  if (submitBtn) submitBtn.disabled = !enabled;
+function setInputEnabled(enabled, placeholder = null) {
+const input = document.getElementById("chat-input");
+const submitBtn = document.querySelector("#chat-form button[type='submit']");
 
-  if (input) {
-    input.placeholder = enabled
-      ? "Escribe un mensaje..."
-      : "Límite de tokens alcanzado — esperá el tiempo indicado";
-  }
+if (input) input.disabled = !enabled;
+if (submitBtn) submitBtn.disabled = !enabled;
+
+if (input) {
+input.placeholder = placeholder
+? placeholder
+: enabled
+? "Escribí un mensaje..."
+: "Límite de tokens alcanzado — esperá el tiempo indicado";
+}
 }
 
 function showTokenLimitMessage(characterName) {
-  const container = document.getElementById("messages");
-  if (!container) return;
+const container = document.getElementById("messages");
+if (!container) return;
 
-  const existing = document.getElementById("token-limit-msg");
-  if (existing) existing.remove();
+const existing = document.getElementById("token-limit-msg");
+if (existing) existing.remove();
 
-  const avatar = characters.find(c => c.name === characterName)?.avatar ?? "🤖";
+const avatar = characters.find(c => c.name === characterName)?.avatar ?? "🤖";
 
-  const div = document.createElement("div");
-  div.id = "token-limit-msg";
-  div.className = "message ai token-limit-message";
-  div.innerHTML = `
-    <span class="avatar">${avatar}</span>
-    <span class="message-text">
-      ${getLimitMessage(characterName)}
-      <br/>
-      <span class="token-countdown" id="token-countdown"></span>
-    </span>
-  `;
+const div = document.createElement("div");
+div.id = "token-limit-msg";
+div.className = "message ai token-limit-message";
+div.innerHTML = `
+<span class="avatar">${avatar}</span>
+<span class="message-text">
+  ${getLimitMessage(characterName)}
+  <br/>
+  <span class="token-countdown" id="token-countdown"></span>
+</span>
+`;
 
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+container.appendChild(div);
+container.scrollTop = container.scrollHeight;
 
-  function updateCountdown() {
-    const el = document.getElementById("token-countdown");
-    if (!el) {
-      clearInterval(_countdownInterval);
-      _countdownInterval = null;
-      return;
-    }
+function updateCountdown() {
+const el = document.getElementById("token-countdown");
+if (!el) {
+clearInterval(_countdownInterval);
+_countdownInterval = null;
+return;
+}
 
-    const ms = getMsUntilReset();
-    if (ms <= 0) {
-      el.textContent = "¡Ya podés volver a chatear!";
-      clearInterval(_countdownInterval);
-      _countdownInterval = null;
-      setInputEnabled(true);
-      refreshTokenBar();
-      return;
-    }
+const ms = getMsUntilReset();
+if (ms <= 0) {
+el.textContent = "¡Ya podés volver a chatear!";
+clearInterval(_countdownInterval);
+_countdownInterval = null;
+setInputEnabled(true);
+refreshTokenBar();
+return;
+}
 
-    el.textContent = `⏱ Tiempo restante: ${formatTimeRemaining(ms)}`;
-  }
+el.textContent = `⏱ Tiempo restante: ${formatTimeRemaining(ms)}`;
+}
 
-  updateCountdown();
-  _countdownInterval = setInterval(updateCountdown, 1000);
+updateCountdown();
+_countdownInterval = setInterval(updateCountdown, 1000);
 }
 
 function initChat() {
-  const conversations = getConversations();
+const conversations = getConversations();
 
-  const restored = restoreCharacter(characters);
-  if (restored) {
-    applyTheme(restored.theme);
-    loadConversation(restored.name, conversations);
-    document.querySelectorAll(".character-btn").forEach(b => {
-      if (b.dataset.character === restored.name) b.classList.add("active");
-    });
+const restored = restoreCharacter(characters);
+if (restored) {
+hideEmptyState();
+applyTheme(restored.theme);
+loadConversation(restored.name, conversations);
 
-    if (isLimitReached()) {
-      showTokenLimitMessage(restored.name);
-      setInputEnabled(false);
-    }
-  } else {
-    showEmptyState();
-  }
+document.querySelectorAll(".character-btn").forEach(b => {
+if (b.dataset.character === restored.name) b.classList.add("active");
+});
 
+if (isLimitReached()) {
+showTokenLimitMessage(restored.name);
+setInputEnabled(false);
+} else {
+setInputEnabled(true);
+}
+} else {
+showEmptyState();
+setInputEnabled(false, "Elegí un personaje para escribir...");
+}
 
-  document.querySelectorAll(".character-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const name      = btn.dataset.character;
-      const character = characters.find(c => c.name === name);
-      if (!character) return;
+document.querySelectorAll(".character-btn").forEach(btn => {
+btn.addEventListener("click", () => {
+const name = btn.dataset.character;
+const character = characters.find(c => c.name === name);
+if (!character) return;
 
-      setCharacter(character);
+setCharacter(character);
 
-      document.querySelectorAll(".character-btn")
-        .forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+document.querySelectorAll(".character-btn")
+.forEach(b => b.classList.remove("active"));
 
-      applyTheme(character.theme);
-      loadConversation(name, conversations);
+btn.classList.add("active");
 
-      if (isLimitReached()) {
-        showTokenLimitMessage(name);
-        setInputEnabled(false);
-      } else {
-        setInputEnabled(true);
-        const existing = document.getElementById("token-limit-msg");
-        if (existing) existing.remove();
-      }
-    });
-  });
+hideEmptyState();
+applyTheme(character.theme);
+loadConversation(name, conversations);
 
+if (isLimitReached()) {
+showTokenLimitMessage(name);
+setInputEnabled(false);
+} else {
+setInputEnabled(true);
+const existing = document.getElementById("token-limit-msg");
+if (existing) existing.remove();
+}
+});
+});
 
-  const form = document.getElementById("chat-form");
-  if (!form) return;
+const form = document.getElementById("chat-form");
+if (!form) return;
 
-  form.addEventListener("submit", async e => {
-    e.preventDefault();
+form.addEventListener("submit", async e => {
+e.preventDefault();
 
-    const input = document.getElementById("chat-input");
-    const text  = input.value.trim();
+const input = document.getElementById("chat-input");
+const text = input.value.trim();
 
-    if (!chatState.selectedCharacter) {
-      showWarning("Primero elegí un personaje 👆");
-      return;
-    }
+if (!chatState.selectedCharacter) {
+showWarning("Primero elegí un personaje 👆");
+return;
+}
 
-    if (!text) {
-      showWarning("Escribí un mensaje antes de enviar 📝");
-      return;
-    }
+if (!text) {
+showWarning("Escribí un mensaje antes de enviar 📝");
+return;
+}
 
-    if (isLimitReached()) {
-      showTokenLimitMessage(chatState.selectedCharacter.name);
-      setInputEnabled(false);
-      return;
-    }
+if (isLimitReached()) {
+showTokenLimitMessage(chatState.selectedCharacter.name);
+setInputEnabled(false);
+return;
+}
 
-    const characterName = chatState.selectedCharacter.name;
-    const history       = [...(conversations[characterName] || [])];
-    input.value = "";
+const characterName = chatState.selectedCharacter.name;
+const history = [...(conversations[characterName] || [])];
+input.value = "";
 
-    addMessage(text, "user", characterName, conversations);
-    addTyping();
+addMessage(text, "user", characterName, conversations);
+addTyping();
 
-    try {
-      const reply = await getAIResponse(text, chatState.selectedCharacter, history);
-      removeTyping();
-      addMessage(reply, "ai", characterName, conversations);
+try {
+const reply = await getAIResponse(text, chatState.selectedCharacter, history);
+removeTyping();
+addMessage(reply, "ai", characterName, conversations);
+refreshTokenBar();
+} catch (err) {
+removeTyping();
 
+if (err.message === "TOKEN_LIMIT") {
+showTokenLimitMessage(characterName);
+setInputEnabled(false);
+refreshTokenBar();
+} else {
+addMessage(
+"Error al conectar con la IA. Revisá la consola.",
+"ai",
+characterName,
+conversations,
+false
+);
+console.error("Chat error:", err);
+}
+}
+});
 
-      refreshTokenBar();
+const clearBtn = document.getElementById("clear-chat");
+if (clearBtn) {
+clearBtn.addEventListener("click", () => {
+const name = chatState.selectedCharacter?.name;
+if (!name) {
+showWarning("Primero elegí un personaje 👆");
+return;
+}
 
-    } catch (err) {
-      removeTyping();
+conversations[name] = [];
+saveConversations(conversations);
 
-      if (err.message === "TOKEN_LIMIT") {
-        showTokenLimitMessage(characterName);
-        setInputEnabled(false);
-        refreshTokenBar();
-      } else {
-        addMessage(
-          "Error al conectar con la IA. Revisá la consola.",
-          "ai", characterName, conversations, false
-        );
-        console.error("Chat error:", err);
-      }
-    }
-  });
+const container = document.getElementById("messages");
+if (container) container.innerHTML = "";
 
+if (isLimitReached()) {
+showTokenLimitMessage(name);
+setInputEnabled(false);
+}
+});
+}
 
-  const clearBtn = document.getElementById("clear-chat");
-  if (clearBtn) {
-    clearBtn.addEventListener("click", () => {
-      const name = chatState.selectedCharacter?.name;
-      if (!name) {
-        showWarning("Primero elegí un personaje 👆");
-        return;
-      }
-      conversations[name] = [];
-      saveConversations(conversations);
-      const container = document.getElementById("messages");
-      if (container) container.innerHTML = "";
-
-      if (isLimitReached()) {
-        showTokenLimitMessage(name);
-        setInputEnabled(false);
-      }
-    });
-  }
-
-
-  initContrastButton();
+initContrastButton();
 }

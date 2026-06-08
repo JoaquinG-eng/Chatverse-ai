@@ -75,8 +75,8 @@
 
 /* ── ANIMACIÓN COMPARTIDA ─────────────────────────────────── */
 @keyframes charPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50%       { opacity: 0.55; transform: scale(1.02); }
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50%       { opacity: 0.22; transform: scale(1.02); }
 }
 
 /* ============================================================
@@ -110,7 +110,7 @@ body::before {
 }
 
 /* Reseteo de fondos por personaje cuando no hay personaje activo */
-body:not(.theme-mario):not(.theme-naruto):not(.theme-rosalina):not(.theme-teacher)::after {
+body:not(.theme-mario):not(.theme-naruto):not(.theme-rosalina):not(.theme-melina)::after {
   content: "";
   position: fixed;
   inset: 0;

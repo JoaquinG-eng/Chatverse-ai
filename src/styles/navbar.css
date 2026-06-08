@@ -1,30 +1,83 @@
 .navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  gap: 24px;
+  width: 100%;
+  padding: 18px clamp(18px, 5vw, 88px);
+  background: rgba(8, 13, 28, 0.86);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
 }
 
-.navbar a {
-  font-weight: bold;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.nav-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  background: rgba(96, 165, 250, 0.16);
+  border: 1px solid rgba(96, 165, 250, 0.26);
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.16);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.055);
 }
 
 .nav-link {
-  padding: 10px 16px;
-  border-radius: 12px;
-  transition: background 0.3s ease, transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  min-height: 46px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.84);
+  font-weight: 900;
+  background: transparent;
+  border: 1px solid transparent;
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
 }
 
 .nav-link:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .active-link {
-  background: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.12);
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.32);
 }

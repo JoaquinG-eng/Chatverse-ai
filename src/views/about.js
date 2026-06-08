@@ -1,66 +1,76 @@
+const BRAND_IMAGE = "/images/chatverse-buddy.webp";
+
 export function renderAbout() {
+return `
+<section class="about-page">
 
-  return `
+  <div class="about-card">
 
-    <section class="about-page">
+    <div class="about-content">
+      <span class="about-badge">Sobre el proyecto</span>
 
-      <div class="about-card">
+      <h1 class="about-title">
+        ¿Qué es ChatVerse AI?
+      </h1>
 
-        <h1 class="about-title">
-          Sobre ChatVerse AI
-        </h1>
+      <p class="about-text">
+        ChatVerse AI es una app para conversar con personajes virtuales, practicar inglés,
+        hacer preguntas y aprender de una forma más divertida.
+      </p>
 
-        <p class="about-text">
+      <p class="about-text">
+        Está pensada para chicos y chicas de 8 a 14 años, con una experiencia simple,
+        visual y fácil de usar.
+      </p>
 
-          ChatVerse AI es una aplicación
-          inspirada en universos de videojuegos
-          y anime donde puedes conversar con
-          distintos personajes utilizando
-          inteligencia artificial.
-
-        </p>
-
-        <p class="about-text">
-
-          El proyecto fue desarrollado como
-          una Single Page Application (SPA)
-          utilizando HTML, CSS y JavaScript.
-
-        </p>
-
-        <div class="about-tech">
-
-          <span>HTML</span>
-          <span>CSS</span>
-          <span>JavaScript</span>
-          <span>Vercel</span>
-          <span>Gemini AI</span>
-
-        </div>
-
+      <div class="about-tech">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Gemini AI</span>
       </div>
+    </div>
 
-      <div class="about-characters">
+    <div class="brand-visual about-visual" aria-label="Mascota de ChatVerse AI">
+      <img
+        class="brand-image"
+        src="${BRAND_IMAGE}"
+        alt="Mascota robot amigable de ChatVerse AI"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+      >
+      <div class="brand-image-fallback" aria-hidden="true">🤖</div>
+    </div>
 
-        <div class="about-character">
-          🍄 Mario
-        </div>
+  </div>
 
-        <div class="about-character">
-          teacher Meli👩‍🏫🦋
-        </div>
+  <div class="about-features">
 
-        <div class="about-character">
-          🍥 Naruto
-        </div>
+    <div class="about-feature">
+      <span>🛡️</span>
+      <h3>Seguro</h3>
+      <p>La experiencia está pensada para conversar de forma cuidada y amigable.</p>
+    </div>
 
-        <div class="about-character">
-          🌌 Rosalina
-        </div>
+    <div class="about-feature">
+      <span>🎮</span>
+      <h3>Divertido</h3>
+      <p>Podés elegir personajes con estilos distintos y empezar a chatear.</p>
+    </div>
 
-      </div>
+    <div class="about-feature">
+      <span>📚</span>
+      <h3>Educativo</h3>
+      <p>Sirve para practicar inglés, hacer preguntas y aprender jugando.</p>
+    </div>
 
-    </section>
+    <div class="about-feature">
+      <span>✨</span>
+      <h3>Fácil de usar</h3>
+      <p>Elegís un personaje, escribís tu mensaje y recibís una respuesta.</p>
+    </div>
 
-  `;
+  </div>
+
+</section>
+`;
 }

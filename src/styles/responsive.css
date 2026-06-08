@@ -1,23 +1,134 @@
-/* Base mobile — sin media query */
-.chat-page { width: 100%; padding: 1rem; }
-.characters { flex-direction: column; align-items: center; }
-.character-btn { width: 100%; max-width: 280px; }
-.chat-form { flex-direction: column; }
-.messages { height: 55vh; padding: 15px; }
-
-/* Tablet */
-@media (min-width: 768px) {
-  .chat-page { width: 95%; padding: 10px; }
-  .messages { height: 60vh; }
-  .characters { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-  .character-btn { width: auto; max-width: none; }
-  .chat-form { flex-direction: row; }
+@media (max-width: 1024px) {
+.hero-card,
+.about-card,
+.chat-default-hero {
+grid-template-columns: 1fr;
+text-align: center;
 }
 
-/* Desktop */
-@media (min-width: 1024px) {
-  .chat-page { width: 90%; max-width: 900px; margin: 20px auto; padding: 10px 20px 20px; }
-  .messages { height: 400px; }
-  .hero-title { font-size: 3rem; }
-  .about-title { font-size: 2.5rem; }
+.hero-content,
+.about-content {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.hero-actions {
+justify-content: center;
+}
+
+.home-characters,
+.about-features {
+grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.brand-visual,
+.about-visual {
+min-height: 260px;
+}
+}
+
+@media (max-width: 768px) {
+.navbar {
+flex-direction: column;
+gap: 14px;
+padding: 14px 16px;
+}
+
+.nav-links {
+width: 100%;
+justify-content: center;
+gap: 6px;
+}
+
+.nav-link {
+flex: 1;
+min-width: 0;
+padding: 10px 12px;
+font-size: 0.92rem;
+}
+
+.home-page,
+.about-page,
+.chat-page {
+width: 100%;
+padding: 26px 14px 50px;
+}
+
+.hero-card,
+.about-card {
+padding: 28px 18px;
+border-radius: 26px;
+}
+
+.brand-image {
+width: min(100%, 280px);
+}
+
+.home-characters,
+.about-features {
+grid-template-columns: 1fr;
+}
+
+.characters {
+flex-direction: column;
+align-items: stretch;
+}
+
+.character-btn {
+width: 100%;
+}
+
+.chat-default-hero {
+padding: 20px;
+border-radius: 24px;
+}
+
+.messages {
+height: 55vh;
+padding: 15px;
+}
+
+.chat-form {
+flex-direction: column;
+}
+
+.chat-form button {
+width: 100%;
+}
+
+.start-btn,
+.secondary-btn {
+width: 100%;
+}
+}
+
+@media (max-width: 420px) {
+.nav-brand {
+font-size: 1rem;
+}
+
+.nav-brand-icon {
+width: 34px;
+height: 34px;
+border-radius: 12px;
+}
+
+.nav-link {
+font-size: 0.86rem;
+}
+
+.hero-title,
+.about-title {
+letter-spacing: -0.8px;
+}
+
+.home-character,
+.about-feature {
+padding: 20px;
+}
+
+.messages {
+height: 50vh;
+}
 }
