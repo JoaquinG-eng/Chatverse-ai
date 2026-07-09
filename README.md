@@ -391,4 +391,4 @@ Los errores más relevantes resueltos con asistencia de IA:
 
 ## Autor
 
-**Joaquín Gonzalez** — Proyecto M3 — FT73
+**Joaquín Gonzalez**  **Chatverse-ai** 
