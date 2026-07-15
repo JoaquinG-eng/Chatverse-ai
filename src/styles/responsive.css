@@ -109,9 +109,18 @@ font-size: 1rem;
 }
 
 .nav-brand-icon {
-width: 34px;
-height: 34px;
+width: 38px;
+height: 38px;
+flex-basis: 38px;
 border-radius: 12px;
+}
+
+.nav-brand-logo {
+transform: scale(1.54);
+}
+
+.nav-brand:hover .nav-brand-logo {
+transform: scale(1.62);
 }
 
 .nav-link {
