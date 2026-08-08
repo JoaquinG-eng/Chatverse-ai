@@ -1,121 +1,195 @@
-/* ── MARIO ────────────────────────────────────────────────── */
-.theme-mario::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("/IMG/mario.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 1;
-  image-rendering: high-quality;
-  animation: charPulse 3s ease-in-out infinite;
-}
-
-/* ── NARUTO ───────────────────────────────────────────────── */
-.theme-naruto::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("/IMG/naruto.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 1;
-  image-rendering: high-quality;
-  animation: charPulse 3s ease-in-out infinite;
-}
-
-/* ── ROSALINA ─────────────────────────────────────────────── */
-.theme-rosalina::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("/IMG/rosalina.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 1;
-  image-rendering: high-quality;
-  animation: charPulse 3s ease-in-out infinite;
-}
-/* ── MELINA ───────────────────────────────────────────────── */
-.theme-melina::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("/IMG/teacher_Meli.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.7;
-  pointer-events: none;
-  z-index: 1;
-  image-rendering: high-quality;
-  animation: charPulse 3s ease-in-out infinite;
-}
-
-/* ── ANIMACIÓN COMPARTIDA ─────────────────────────────────── */
-@keyframes charPulse {
-  0%, 100% { opacity: 0.12; transform: scale(1); }
-  50%       { opacity: 0.22; transform: scale(1.02); }
-}
-
 /* ============================================================
-   Fondo base minimalista
-   Se usa en Home, About y Chat antes de elegir personaje
+   CHATVERSE
+   Fondo temático sólido, legible y con identidad por personaje.
    ============================================================ */
 
 body {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.18), transparent 28rem),
-    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.14), transparent 26rem),
-    radial-gradient(circle at 50% 90%, rgba(14, 165, 233, 0.10), transparent 30rem),
-    linear-gradient(135deg, #0f172a 0%, #111827 45%, #020617 100%);
-  background-attachment: fixed;
-  color: #f8fafc;
+  --theme-primary: 96, 165, 250;
+  --theme-secondary: 124, 58, 237;
+  --theme-image: none;
+  --theme-image-position: center center;
 }
 
-/* Capa visual suave para dar profundidad sin usar imagen */
-body::before {
+/* ── MELINA ─────────────────────────────────────────────── */
+
+body.theme-melina {
+  --theme-primary: 244, 114, 182;
+  --theme-secondary: 168, 85, 247;
+  --theme-image: url("/IMG/teacher_Meli.png");
+  --theme-image-position: center 32%;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(244, 114, 182, 0.19), transparent 28rem),
+    radial-gradient(circle at 84% 28%, rgba(168, 85, 247, 0.15), transparent 26rem),
+    linear-gradient(135deg, #160d1a 0%, #121020 46%, #070b17 100%);
+}
+
+/* ── NARUTO ─────────────────────────────────────────────── */
+
+body.theme-naruto {
+  --theme-primary: 251, 146, 60;
+  --theme-secondary: 239, 68, 68;
+  --theme-image: url("/IMG/naruto.png");
+  --theme-image-position: center 28%;
+  background:
+    radial-gradient(circle at 14% 16%, rgba(251, 146, 60, 0.20), transparent 28rem),
+    radial-gradient(circle at 84% 24%, rgba(239, 68, 68, 0.13), transparent 25rem),
+    linear-gradient(135deg, #1a100a 0%, #16121a 45%, #070b16 100%);
+}
+
+/* ── ROSALINA ───────────────────────────────────────────── */
+
+body.theme-rosalina {
+  --theme-primary: 167, 139, 250;
+  --theme-secondary: 56, 189, 248;
+  --theme-image: url("/IMG/rosalina.png");
+  --theme-image-position: center 26%;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(167, 139, 250, 0.20), transparent 29rem),
+    radial-gradient(circle at 82% 18%, rgba(56, 189, 248, 0.13), transparent 26rem),
+    linear-gradient(135deg, #0d1024 0%, #10142a 46%, #060914 100%);
+}
+
+/* ── MARIO ──────────────────────────────────────────────── */
+
+body.theme-mario {
+  --theme-primary: 248, 113, 113;
+  --theme-secondary: 59, 130, 246;
+  --theme-image: url("/IMG/mario.png");
+  --theme-image-position: center 30%;
+  background:
+    radial-gradient(circle at 16% 16%, rgba(248, 113, 113, 0.18), transparent 27rem),
+    radial-gradient(circle at 83% 22%, rgba(59, 130, 246, 0.14), transparent 27rem),
+    linear-gradient(135deg, #170d12 0%, #101426 47%, #060a15 100%);
+}
+
+/* ── Imagen del personaje ───────────────────────────────── */
+
+body.theme-mario::after,
+body.theme-naruto::after,
+body.theme-rosalina::after,
+body.theme-melina::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+    linear-gradient(
+      180deg,
+      rgba(2, 6, 23, 0.36) 0%,
+      rgba(2, 6, 23, 0.48) 36%,
+      rgba(2, 6, 23, 0.78) 78%,
+      rgba(2, 6, 23, 0.92) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(2, 6, 23, 0.54) 0%,
+      rgba(2, 6, 23, 0.14) 48%,
+      rgba(2, 6, 23, 0.54) 100%
+    ),
+    var(--theme-image);
+  background-size: cover;
+  background-position: var(--theme-image-position);
+  background-repeat: no-repeat;
+  opacity: 0.50;
+  filter: saturate(0.92) contrast(1.04);
+  animation: themeBreath 8s ease-in-out infinite;
 }
 
-/* Reseteo de fondos por personaje cuando no hay personaje activo */
+/*
+  Main.css ya crea una grilla mediante body::before.
+  Esta regla, al ser más específica, la vuelve temática sin eliminarla.
+*/
+body.theme-mario::before,
+body.theme-naruto::before,
+body.theme-rosalina::before,
+body.theme-melina::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--theme-primary), 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--theme-primary), 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent 86%);
+}
+
+/* ── Navbar acompaña el personaje, sin perder legibilidad ── */
+
+body[class*="theme-"] .navbar {
+  border-color: rgba(var(--theme-primary), 0.13);
+  background:
+    linear-gradient(135deg, rgba(var(--theme-primary), 0.045), rgba(255, 255, 255, 0.018)),
+    rgba(7, 13, 29, 0.91);
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.34),
+    0 0 32px rgba(var(--theme-primary), 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+}
+
+body[class*="theme-"] .nav-brand-icon {
+  border-color: rgba(var(--theme-primary), 0.28);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.25),
+    0 0 22px rgba(var(--theme-primary), 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ── Pequeños detalles del chat ─────────────────────────── */
+
+body[class*="theme-"] .chat-title::before {
+  color: rgb(var(--theme-primary));
+}
+
+body[class*="theme-"] .chat-default-badge {
+  color: rgb(var(--theme-primary));
+  border-color: rgba(var(--theme-primary), 0.18);
+  background: rgba(var(--theme-primary), 0.07);
+}
+
+/* ── Sin personaje activo ───────────────────────────────── */
+
 body:not(.theme-mario):not(.theme-naruto):not(.theme-rosalina):not(.theme-melina)::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 40rem);
+    radial-gradient(circle at 50% 28%, rgba(96, 165, 250, 0.06), transparent 30rem);
+}
+
+/* ── Animación muy suave ────────────────────────────────── */
+
+@keyframes themeBreath {
+  0%, 100% {
+    opacity: 0.46;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.52;
+    transform: scale(1.008);
+  }
+}
+
+@media (max-width: 768px) {
+  body.theme-mario::after,
+  body.theme-naruto::after,
+  body.theme-rosalina::after,
+  body.theme-melina::after {
+    opacity: 0.42;
+    background-position: center top;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.theme-mario::after,
+  body.theme-naruto::after,
+  body.theme-rosalina::after,
+  body.theme-melina::after {
+    animation: none !important;
+  }
 }

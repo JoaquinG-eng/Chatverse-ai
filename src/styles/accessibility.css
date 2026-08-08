@@ -3,14 +3,57 @@ body.high-contrast {
   color: #fff;
 }
 
-body.high-contrast .messages         { border: 2px solid white; background: #111; }
-body.high-contrast .message          { border: 2px solid white; }
-body.high-contrast .character-btn    { border: 2px solid white; }
-body.high-contrast .chat-input       { color: white; border: 2px solid white; background: #000; }
+body.high-contrast .messages {
+  border: 2px solid white;
+  background: #111;
+}
+
+body.high-contrast .message {
+  border: 2px solid white;
+}
+
+body.high-contrast .character-btn {
+  border: 2px solid white;
+}
+
+body.high-contrast .chat-input {
+  color: white;
+  border: 2px solid white;
+  background: #000;
+}
+
 body.high-contrast .about-card,
-body.high-contrast .hero-card,
-body.high-contrast .about-character  { border: 2px solid white; background: #111; }
+body.high-contrast .hero-card {
+  border: 2px solid white;
+  background: #111;
+}
+
+body.high-contrast .token-bar-inner {
+  border: 2px solid white;
+  background: #080808;
+}
+
+body.high-contrast .token-bar-track {
+  border: 1px solid white;
+  background: #222;
+}
+
+body.high-contrast .token-bar-label,
+body.high-contrast .token-bar-numbers,
+body.high-contrast .token-bar-remaining,
+body.high-contrast .token-bar-reset {
+  color: white;
+}
+
+body.high-contrast .token-bar-state,
+body.high-contrast .token-bar-percent {
+  color: white;
+  border-color: white;
+  background: #000;
+}
 
 @media (prefers-contrast: more) {
-  body { filter: contrast(1.1); }
+  body {
+    filter: contrast(1.1);
+  }
 }

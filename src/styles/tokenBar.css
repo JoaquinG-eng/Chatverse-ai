@@ -1,73 +1,422 @@
+
+
 .token-bar {
-  width: 100%;
-  background: var(--navbar-bg, #111113);
-  border-bottom: 1px solid var(--border, #2A2A32);
-  padding: 0.5rem 1.5rem;
+  --token-accent: 96, 165, 250;
+  --token-accent-2: 124, 58, 237;
+
+  position: relative;
+  z-index: 90;
+  width: min(calc(100% - 28px), 1180px);
+  margin: 10px auto 0;
+  padding: 0;
 }
 
 .token-bar-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(18, 28, 50, 0.96), rgba(8, 15, 32, 0.96));
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    background 0.28s ease;
+}
+
+.token-bar-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(var(--token-accent), 0.18);
+  border-radius: 13px;
+  color: rgb(var(--token-accent));
+  background:
+    radial-gradient(circle, rgba(var(--token-accent), 0.14), rgba(var(--token-accent), 0.04));
+  font-size: 0.86rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 18px rgba(var(--token-accent), 0.055);
+  filter: drop-shadow(0 0 7px rgba(var(--token-accent), 0.28));
+}
+
+.token-bar-content {
+  min-width: 0;
 }
 
 .token-bar-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 7px;
+}
+
+.token-bar-title-group {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
 }
 
 .token-bar-label {
+  color: rgba(226, 232, 240, 0.82);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 900;
+  letter-spacing: 0.075em;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-muted, #71717A);
+  white-space: nowrap;
+}
+
+.token-bar-state {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 4px 8px;
+  border: 1px solid rgba(52, 211, 153, 0.13);
+  border-radius: 999px;
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.06);
+  font-size: 0.61rem;
+  font-weight: 900;
+  letter-spacing: 0.035em;
+  white-space: nowrap;
 }
 
 .token-bar-numbers {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-soft, #A1A1AA);
   display: flex;
-  gap: 0.2rem;
   align-items: center;
+  gap: 4px;
+  color: rgba(203, 213, 225, 0.63);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
-.token-bar-sep { color: var(--text-muted, #52525B); }
+.token-bar-numbers strong {
+  color: rgba(248, 250, 252, 0.92);
+  font-weight: 900;
+}
+
+.token-bar-sep {
+  color: rgba(148, 163, 184, 0.38);
+}
+
+.token-bar-percent {
+  display: inline-flex;
+  min-width: 40px;
+  justify-content: center;
+  margin-left: 5px;
+  padding: 3px 6px;
+  border: 1px solid rgba(var(--token-accent), 0.10);
+  border-radius: 7px;
+  color: rgba(191, 219, 254, 0.80);
+  background: rgba(var(--token-accent), 0.055);
+  font-size: 0.64rem;
+  font-weight: 900;
+}
 
 .token-bar-track {
+  position: relative;
   width: 100%;
-  height: 4px;
-  background: var(--border, #2A2A32);
-  border-radius: 99px;
+  height: 7px;
   overflow: hidden;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.10);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
+}
+
+.token-bar-track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 24.7%,
+      rgba(255,255,255,.07) 25%,
+      transparent 25.3%,
+      transparent 49.7%,
+      rgba(255,255,255,.07) 50%,
+      transparent 50.3%,
+      transparent 74.7%,
+      rgba(255,255,255,.07) 75%,
+      transparent 75.3%
+    );
 }
 
 .token-bar-fill {
+  position: relative;
   height: 100%;
-  background: #6366F1;
-  border-radius: 99px;
-  transition: width 0.4s ease, background 0.3s ease;
+  min-width: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--token-accent)),
+      rgb(var(--token-accent-2))
+    );
+  box-shadow:
+    0 0 12px rgba(var(--token-accent), 0.25);
+  transition:
+    width 0.45s cubic-bezier(.2, .8, .2, 1),
+    background 0.28s ease,
+    box-shadow 0.28s ease;
 }
 
-.token-bar-fill.warning { background: #F59E0B; }
-.token-bar-fill.danger  { background: #F43F5E; }
+.token-bar-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+  opacity: 0.45;
+}
+
+.token-bar-fill.warning {
+  background: linear-gradient(90deg, #f59e0b, #f97316);
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.24);
+}
+
+.token-bar-fill.danger {
+  background: linear-gradient(90deg, #fb7185, #ef4444);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.28);
+}
 
 .token-bar-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 6px;
 }
 
-.token-bar-remaining {
-  font-size: 0.68rem;
-  color: var(--text-muted, #71717A);
+.token-bar-remaining,
+.token-bar-reset {
+  color: rgba(148, 163, 184, 0.61);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  font-variant-numeric: tabular-nums;
 }
 
 .token-bar-reset {
-  font-size: 0.68rem;
-  color: var(--text-muted, #71717A);
+  text-align: right;
+}
+
+/* Estado 60%+ */
+
+.token-bar.warning .token-bar-inner {
+  border-color: rgba(245, 158, 11, 0.15);
+}
+
+.token-bar.warning .token-bar-state {
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.065);
+}
+
+/* Estado 90%+ */
+
+.token-bar.danger .token-bar-inner {
+  border-color: rgba(244, 63, 94, 0.19);
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.24),
+    0 0 26px rgba(244, 63, 94, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.token-bar.danger .token-bar-state {
+  color: #fecdd3;
+  border-color: rgba(244, 63, 94, 0.18);
+  background: rgba(244, 63, 94, 0.07);
+}
+
+/* Tema del personaje */
+
+body.theme-melina .token-bar {
+  --token-accent: 244, 114, 182;
+  --token-accent-2: 168, 85, 247;
+}
+
+body.theme-naruto .token-bar {
+  --token-accent: 251, 146, 60;
+  --token-accent-2: 239, 68, 68;
+}
+
+body.theme-rosalina .token-bar {
+  --token-accent: 167, 139, 250;
+  --token-accent-2: 56, 189, 248;
+}
+
+body.theme-mario .token-bar {
+  --token-accent: 248, 113, 113;
+  --token-accent-2: 59, 130, 246;
+}
+
+body[class*="theme-"] .token-bar-inner {
+  border-color: rgba(var(--token-accent), 0.12);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .token-bar {
+    width: calc(100% - 16px);
+    margin-top: 8px;
+  }
+
+  .token-bar-inner {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px 11px;
+    border-radius: 16px;
+  }
+
+  .token-bar-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+  }
+
+  .token-bar-label {
+    font-size: 0.64rem;
+  }
+
+  .token-bar-numbers {
+    font-size: 0.67rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .token-bar {
+    width: calc(100% - 12px);
+    margin-top: 6px;
+  }
+
+  .token-bar-inner {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .token-bar-icon {
+    display: none;
+  }
+
+  .token-bar-info {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .token-bar-title-group {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .token-bar-state {
+    min-height: 19px;
+    padding: 3px 7px;
+    font-size: 0.57rem;
+  }
+
+  .token-bar-numbers {
+    padding-top: 1px;
+  }
+
+  .token-bar-percent {
+    min-width: 36px;
+    margin-left: 2px;
+    padding-inline: 5px;
+  }
+
+  .token-bar-footer {
+    align-items: flex-start;
+  }
+
+  .token-bar-remaining,
+  .token-bar-reset {
+    font-size: 0.59rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .token-bar-fill,
+  .token-bar-inner {
+    transition: none !important;
+  }
+}
+/* ============================================================
+   CHATVERSE — TOKEN BAR STICKY FIX V6.1
+   Pegar AL FINAL de src/styles/tokenBar.css
+   ============================================================ */
+
+/* Desktop:
+   Navbar: top 14px + ~64px de alto.
+   Token Bar queda debajo, sin superposición.
+*/
+.token-bar {
+  position: sticky;
+  top: 88px;
+  z-index: 80;
+}
+
+/* Evita que el glass del navbar y la token bar se mezclen visualmente */
+.token-bar-inner {
+  background:
+    linear-gradient(145deg, rgba(18, 28, 50, 0.985), rgba(8, 15, 32, 0.985));
+}
+
+/* Tablet / móvil */
+@media (max-width: 768px) {
+  .token-bar {
+    top: 72px;
+  }
+}
+
+/* Teléfonos chicos */
+@media (max-width: 420px) {
+  .token-bar {
+    top: 66px;
+  }
+}
+
+
+/* ============================================================
+   CHATVERSE — TOKEN BAR STATIC FIX V6.2
+   Pegar AL FINAL de src/styles/tokenBar.css
+
+   La Token Bar queda arriba en el flujo normal.
+   NO sigue al usuario durante el scroll.
+   El Navbar sí continúa sticky.
+   ============================================================ */
+
+.token-bar {
+  position: relative;
+  top: auto;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .token-bar {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .token-bar {
+    position: relative;
+    top: auto;
+  }
 }
